@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>modeling a four bar mechanism</title>
+    <script src="https://sagecell.sagemath.org/static/jquery.min.js"></script>
+    <script src="https://sagecell.sagemath.org/embedded_sagecell.js"></script>
+    <script>
+$(function () {
+    // Make *any* div with class 'compute' a Sage cell 
+    sagecell.makeSagecell({inputLocation: 'div.compute',
+     template: sagecell.templates.minimal,
+                  evalButtonText: 'Launch the Interactive Applet Now'});
+});
+    </script>
+  </head>
+  <body style="width: 1000px;">
+
+  <h1>the Chebyshev four bar mechanism</h1>
+
+<p>An Interactive Applet powered by Sage and MathJax.</p>
+<p>MCS 320 Lecture 34</p>
+
+<hr>
+
+<h2>Overview</h2>
+
+The Chebyshev four bar mechanism translates straight line motion
+into circular motion.
+
+<h2>Instructions</h2>
+
+Click on the button to launch the interactive applet.
+
+<div class="compute">
+<script type="text/x-sage">
+
+var('c, s')
+xv = 1/2*(c^3 + (c + 2)*s^2 - 2*c^2 + sqrt(-c^4 - s^4 + 8*c^3 - (2*c^2 - 8*c - 17)*s^2 + c^2 - 68*c + 84)*s - 4*c + 8)/(c^2 + s^2 - 4*c + 4)
+yv = 1/2*(s^3 + (c^2 - 4*c + 4)*s - sqrt(-c^4 - s^4 + 8*c^3 - (2*c^2 - 8*c - 17)*s^2 + c^2 - 68*c + 84)*(c - 2))/(c^2 + s^2 - 4*c + 4)
+fx(cs, sn) = xv.subs(c=cs, s=sn)
+fy(cs, sn) = yv.subs(c=cs, s=sn)
+
+@interact
+def coupler(angle = slider(0, 2*pi, 0.1, pi/2, label='angle')):
+    """
+    Shows the drawing of a crank, where the user can slide the angle
+    to turn the crank.  Also the connector point is drawn,
+    with the coupler point and fourth bar.
+    """
+    center = (0,0)
+    c = cos(angle)
+    s = sin(angle)
+    endpnt = (c, s)
+    (x, y) = (fx(c,s), fy(c,s))
+    dx = x - c
+    dy = y - s
+    xx = x + dx
+    yy = y + dy
+    pltcnt = point(center, size=50)
+    pltend = point(endpnt, size=50)
+    connector = point((x,y), size=50)
+    coupler = point((xx,yy), size=50, color='red')
+    crank = line([center, endpnt])
+    bartwobase = point((2,0),size=50)
+    bartwo = line([(2,0), (x,y)], color='red')
+    barthree = line([endpnt, (x,y)], color='green')
+    barfour = line([(x,y), (xx,yy)], color='blue')
+    bars = crank + bartwo + barthree + barfour
+    pnts = pltcnt + connector + pltend + bartwobase + coupler
+    plt = bars + pnts 
+    plt.show(xmin=-1, xmax=5, ymin=-1, ymax=+5)
+
+</script> 
+</div>
+
+<h2>Discussion</h2>
+
+The scale on top of the figure allows the user to move the angle
+of the crank.
+After each move of the angle, the four bar configuration is adjusted
+and redrawn.
+
+<hr>
+Last modified on Monday 15 April 2019.
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>tangent line with interact</title>
+    <script src="https://sagecell.sagemath.org/static/jquery.min.js"></script>
+    <script src="https://sagecell.sagemath.org/embedded_sagecell.js"></script>
+    <script>
+$(function () {
+    // Make *any* div with class 'compute' a Sage cell 
+    sagecell.makeSagecell({inputLocation: 'div.compute',
+     template: sagecell.templates.minimal,
+                  evalButtonText: 'Launch the Interactive Applet Now'});
+});
+    </script>
+  </head>
+  <body style="width: 1000px;">
+
+  <h1>tangent line with interact</h1>
+
+<p>An Interactive Applet powered by Sage and MathJax.</p>
+<p>MCS 320 Lecture 33</p>
+
+<hr>
+
+<h2>Overview</h2>
+
+The code is adapted from <em>Sage for Undergraduates</em> by Gregory Bard,
+pages 285 in Figure 1.
+
+<h2>Instructions</h2>
+
+Click on the button to launch the interactive applet.
+
+<div class="compute">
+<script type="text/x-sage">
+
+f(x) = x^3 - x
+df(x) = diff(f(x), x)
+@interact
+def tangent_at_point(x0 = slider(-2, 2, 0.1, -1.5, label='x-coordinate')):
+    """
+    Shows the tangent line at the point x0,
+    using f and its derivative as global variables.
+    """
+    y0 = f(x0)
+    slope = df(x0)
+    # y - y0 = slope*(x - x0) implies
+    # y = slope*x - slope*x0 + y0
+    b = y0 - slope*x0
+    P1 = plot(f, -2, 2, color='blue', ymin=-6, ymax=6, gridlines='minor')
+    P2 = plot(slope*x + b, -2, 2, color='tan', ymin=-6, ymax=6)
+    P3 = point((x0, y0), color='red', size=50)
+    P = P1+P2+P3
+    P.show()
+
+</script> 
+</div>
+
+<h2>Discussion</h2>
+
+The scale on top of the figure allows the user to move the x-coordinate
+of a point on a curve. 
+After each move, the tangent line at the new point is shown.
+
+<hr>
+Last modified on Friday 12 April 2019.
+</body>
+</html>
