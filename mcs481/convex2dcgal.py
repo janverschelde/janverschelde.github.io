@@ -1,4 +1,4 @@
-# L-3 MCS 481 Fri 17 Jan 2025 : convex2dcgal.py
+# L-3 MCS 481 Fri 28 Aug 2026 : convex2dcgal.py
 """
 Copied from
 https://github.com/CGAL/cgal-swig-bindings/blob/main/examples/python/test_convex_hull_2.py
